@@ -34,6 +34,7 @@ class Ad(models.Model):
         (SPELLMASTER, 'Мастера заклинаний')
     ]
     adCategory = models.CharField(max_length=2, choices=CHOICES, default=TANKS)
+    createDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.adTitle

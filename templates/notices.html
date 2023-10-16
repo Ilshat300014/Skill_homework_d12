@@ -1,0 +1,58 @@
+'{% extends 'default.html' %}'
+
+
+{% block title %}Notices{% endblock title %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+
+{% block content %}
+    {% if ads %}
+        <h1>Все объявления:</h1>
+        <h3>Общее количество постов: {{ ads|length }}</h3>
+        <table class="table">
+           <tr>
+               <th scope="col">
+                   Загаловок
+               </th>
+               <th scope="col">
+                   Дата публикации
+               </th>
+               <th scope="col">
+                   Текст
+               </th>
+               <th scope="col">
+                   Действия
+               </th>
+           </tr>
+        {% for ad in ads %}
+           <tr>
+               <td>
+                   <a href="">{{ ad.adTitle }}</a>
+               </td>
+               <td>
+                   {{ ad.createDate|date:'d M Y' }}
+               </td>
+               <td>
+                   {{ ad.adText|truncatewords:20 }}
+               </td>
+               <td>
+                   <a href="">Редактировать</a>
+                   <a href="">Удалить</a>
+               </td>
+           </tr>
+        {% endfor %}
+        </table>
+        <!-- Заменили код пагинатора на подключение шаблона с этим кодом -->
+        <div>{% include 'parts/paginator.html' %}</div>
+    {% else %}
+        <h1>Пока объявлений нет</h1>
+    {% endif %}
+
+<!--    {% if is_not_author %}-->
+<!--        <a class="btn btn-info" href="{% url 'news:upgrade' %}">-->
+<!--            Стать автором-->
+<!--        </a>-->
+<!--    {% endif %}-->
+{% endblock content %}

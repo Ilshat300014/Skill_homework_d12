@@ -2,12 +2,10 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import *
 
-def Test(request):
-    print('HOHOHOHOHOHOHOHOH')
-    return render(request,'default.html')
-
 
 class NoticeLists(ListView):
-    model = Author
-    print('VJENRVINREN')
-    template_name = 'default.html'
+    model = Ad
+    template_name = 'notices.html'
+    context_object_name = 'ads'
+    ordering = ['-createDate']
+    paginate_by = 10
