@@ -36,3 +36,18 @@
 1. Главная страница - все объявления
 2. Само объявление
 3. Страница регистрации
+
+user1 = User.objects.create(username='Jack', email='jack@jack.ru', password='qwer1234!@#$')
+user2 = User.objects.create(username='Ivan', email='ivan@ivan.ru', password='qwer1234!@#$')
+user3 = User.objects.create(username='Petr', email='petr@petr.ru', password='qwer1234!@#$')
+user4 = User.objects.create(username='Oleg', email='oleg@oleg.ru', password='qwer1234!@#$')
+user5 = User.objects.create(username='Nina', email='nina@nina.ru', password='qwer1234!@#$')
+user6 = User.objects.create(username='Dima', email='dima@dima.ru', password='qwer1234!@#$')
+user7 = User.objects.create(username='Lena', email='lena@lena.ru', password='qwer1234!@#$')
+
+Author.objects.create(authorUser=user2)
+Author.objects.create(authorUser=user3)
+Author.objects.create(authorUser=user4)
+Author.objects.create(authorUser=user5)
+Author.objects.create(authorUser=user6)
+Author.objects.create(authorUser=user7)
