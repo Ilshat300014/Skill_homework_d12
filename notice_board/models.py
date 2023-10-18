@@ -39,6 +39,9 @@ class Ad(models.Model):
     def __str__(self):
         return self.adTitle
 
+    def get_absolute_url(self):
+        return f'/notices/{self.id}'
+
 
 
 class Reply(models.Model):

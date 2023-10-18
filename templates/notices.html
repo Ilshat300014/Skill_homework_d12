@@ -4,6 +4,12 @@
 {% block title %}Notices{% endblock title %}
 
 {% block navbar %}
+    {% if anonymous %}
+       <li class="nav-item"><a class="nav-link" href="{% url 'account_login'  %}">Вход</a></li>
+   {% else %}
+       <li class="nav-item"><a class="nav-link" href="{% url 'notice_board:createAd' %}">Добавить объявление</a></li>
+       <li class="nav-item"><a class="nav-link" href="{% url 'account_logout'  %}">Выход</a></li>
+   {% endif %}
 {% endblock navbar %}
 
 
@@ -29,7 +35,7 @@
         {% for ad in ads %}
            <tr>
                <td>
-                   <a href="">{{ ad.adTitle }}</a>
+                   <a href="{% url 'notice_board:detailAd' ad.id %}">{{ ad.adTitle }}</a>
                </td>
                <td>
                    {{ ad.createDate|date:'d M Y' }}
@@ -38,8 +44,12 @@
                    {{ ad.adText|truncatewords:20 }}
                </td>
                <td>
-                   <a href="">Редактировать</a>
-                   <a href="">Удалить</a>
+                   {% if ad.pk in pk_list %}
+                       <a href="">Редактировать</a>
+                       <a href="">Удалить</a>
+                   {% else %}
+                       <a href="">Откликнуться</a>
+                   {% endif %}
                </td>
            </tr>
         {% endfor %}

@@ -1,0 +1,20 @@
+{% extends 'notices.html' %}
+
+
+{% block title %}
+    {{ ad.adTitle }}
+{% endblock title %}
+
+
+{% block content %}
+<h3>{{ ad.adTitle }}:</h3>
+<p>Опубликовано {{ ad.createDate|date:'d M Y H:m' }}</p>
+{{ ad.adText }}
+<p>
+    {% if not is_author %}
+        <a class="btn btn-success" type="submit" href="">Откликнуться</a>
+    {% endif %}
+</p>
+
+
+{% endblock content %}
