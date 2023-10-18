@@ -26,15 +26,12 @@ class AdCreate(CreateView):
     # permission_required = ('news.add_post',)
     template_name = 'adCreate.html'
     form_class = AdForms
+
     def post(self, request, *args, **kwargs):
-        # self.form_class('author') = request.user
-        author = request.POST
-        print(type(author))
+        user = request.user
+        author = Author.objects.get(authorUser=user)
         form = self.form_class(request.POST)  # создаём новую форму, забиваем в неё данные из POST-запроса
-        # form = form(initial={"adAuthor": request.user})
-        # print(form)
         if form.is_valid():  # если пользователь ввёл всё правильно и нигде не накосячил, то сохраняем новый товар
-            # self.model.adAuthor = request.user
             ad = form.save(commit=False)
             ad.adAuthor = author
             ad.save()
