@@ -6,6 +6,7 @@
 {% block navbar %}
     {% if anonymous %}
        <li class="nav-item"><a class="nav-link" href="{% url 'account_login'  %}">Вход</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'account_signup'  %}">Регистрация</a></li>
    {% else %}
        <li class="nav-item"><a class="nav-link" href="{% url 'notice_board:createAd' %}">Добавить объявление</a></li>
        <li class="nav-item"><a class="nav-link" href="{% url 'account_logout'  %}">Выход</a></li>
@@ -23,6 +24,9 @@
                    Загаловок
                </th>
                <th scope="col">
+                   Автор
+               </th>
+               <th scope="col">
                    Дата публикации
                </th>
                <th scope="col">
@@ -38,10 +42,14 @@
                    <a href="{% url 'notice_board:detailAd' ad.id %}">{{ ad.adTitle }}</a>
                </td>
                <td>
+                   {{ ad.adAuthor.authorUser.username }}</a>
+               </td>
+               <td>
                    {{ ad.createDate|date:'d M Y' }}
                </td>
                <td>
-                   {{ ad.adText|truncatewords:20 }}
+                   <img src="{{ ad.adText }}">
+
                </td>
                <td>
                    {% if ad.pk in pk_list %}

@@ -35,7 +35,7 @@ class AdCreate(CreateView):
             ad = form.save(commit=False)
             ad.adAuthor = author
             ad.save()
-            return redirect('notice_board:allAds')
+        return redirect('notice_board:allAds')
 
 class AdDetail(DetailView):
     model = Ad

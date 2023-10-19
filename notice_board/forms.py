@@ -16,8 +16,13 @@ class AdForms(ModelForm):
     class Meta:
         model = Ad
         fields = ['adCategory', 'adTitle', 'adText']
+        labels = {
+            'adCategory': 'Категория',
+            'adTitle': 'Название',
+            'adText': 'Текст'
+        }
         widgets = {
             'adCategory': forms.Select(attrs={'class': 'form-select'}),
             'adTitle': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter article title'}),
-            'adText': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter article text'})
+            'adText': forms.FileInput(attrs={'class': 'form-control', 'placeholder': 'Enter article text'})
         }

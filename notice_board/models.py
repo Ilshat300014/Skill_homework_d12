@@ -10,7 +10,7 @@ class Author(models.Model):
 class Ad(models.Model):
     adAuthor = models.ForeignKey(Author, on_delete=models.CASCADE)
     adTitle = models.CharField(max_length=255)
-    adText = models.TextField()
+    adText = models.FileField(upload_to='files/')
     TANKS = 'TS'
     HILLS = 'HS'
     DD = 'DD'
@@ -37,7 +37,7 @@ class Ad(models.Model):
     createDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.adTitle
+        return f'{self.adTitle}'
 
     def get_absolute_url(self):
         return f'/notices/{self.id}'
