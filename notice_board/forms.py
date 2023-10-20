@@ -13,16 +13,19 @@ from django.contrib.auth.models import Group
 #         return user
 
 class AdForms(ModelForm):
+    # adFile = forms.FileField(required=False)
     class Meta:
         model = Ad
-        fields = ['adCategory', 'adTitle', 'adText']
+        fields = ['adCategory', 'adTitle', 'adText', 'adFile']
         labels = {
             'adCategory': 'Категория',
             'adTitle': 'Название',
-            'adText': 'Текст'
+            'adText': 'Текст',
+            'adFile': 'Файлы'
         }
         widgets = {
             'adCategory': forms.Select(attrs={'class': 'form-select'}),
-            'adTitle': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter article title'}),
-            'adText': forms.FileInput(attrs={'class': 'form-control', 'placeholder': 'Enter article text'})
+            'adTitle': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter ad title'}),
+            'adText': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter ad text'}),
+            'adFile': forms.ClearableFileInput()
         }

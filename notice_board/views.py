@@ -3,6 +3,12 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import *
 from .forms import *
 
+def handle_uploaded_file(f):
+    with open('//media/files/t1', 'wb+') as recieved_exr:
+        for chunk in f.chunks():
+            recieved_exr.write(chunk)
+
+
 class NoticeLists(ListView):
     model = Ad
     template_name = 'notices.html'
@@ -30,12 +36,29 @@ class AdCreate(CreateView):
     def post(self, request, *args, **kwargs):
         user = request.user
         author = Author.objects.get(authorUser=user)
-        form = self.form_class(request.POST)  # создаём новую форму, забиваем в неё данные из POST-запроса
-        if form.is_valid():  # если пользователь ввёл всё правильно и нигде не накосячил, то сохраняем новый товар
-            ad = form.save(commit=False)
-            ad.adAuthor = author
-            ad.save()
-        return redirect('notice_board:allAds')
+        if self.request.method == "POST":
+            print('POSTPOSTPOST')
+            form = AdForms(request.POST, request.FILES)
+            if form.is_valid():
+                handle_uploaded_file(request.FILES["file"])
+                ad = form.save(commit=False)
+                ad.adAuthor = author
+                ad.save()
+                return redirect('notice_board:allAds')
+        else:
+            form = AdForms()
+        return render(request, "adCreate.html", {"form": form})
+
+        # form = self.form_class(request.POST)  # создаём новую форму, забиваем в неё данные из POST-запроса
+        # # print(dir(form))
+        # # print(form.data['adFile'])
+        # print(form.changed_data)
+        # if form.is_valid():  # если пользователь ввёл всё правильно и нигде не накосячил, то сохраняем новый товар
+        #     print('valid')
+        #     ad = form.save(commit=False)
+        #     ad.adAuthor = author
+        #     ad.save()
+        #     return redirect('notice_board:allAds')
 
 class AdDetail(DetailView):
     model = Ad
@@ -45,7 +68,6 @@ class AdDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         username = self.request.user.username
-        print(username)
         context['is_author'] = context['ad'].adAuthor.authorUser.username == username
         return context
 

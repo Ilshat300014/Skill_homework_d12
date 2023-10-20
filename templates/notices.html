@@ -48,8 +48,7 @@
                    {{ ad.createDate|date:'d M Y' }}
                </td>
                <td>
-                   <img src="{{ ad.adText }}">
-
+                   {{ ad.adText|truncatewords:20 }}
                </td>
                <td>
                    {% if ad.pk in pk_list %}

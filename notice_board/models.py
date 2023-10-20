@@ -10,7 +10,8 @@ class Author(models.Model):
 class Ad(models.Model):
     adAuthor = models.ForeignKey(Author, on_delete=models.CASCADE)
     adTitle = models.CharField(max_length=255)
-    adText = models.FileField(upload_to='files/')
+    adText = models.TextField()
+    adFile = models.FileField(upload_to='files/')
     TANKS = 'TS'
     HILLS = 'HS'
     DD = 'DD'
