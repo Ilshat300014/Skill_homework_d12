@@ -1,22 +1,21 @@
 {% extends 'default.html' %}
 
-<!--{% load custom_filters %}-->
 
 {% block title %}
-    Delete the article
+    Delete the ad
 {% endblock title %}
 
 {% block content %}
 
-<h3>Действительно хотите удалить этот прекрасный пост?</h3>
+<h3>Действительно хотите удалить это объявление?</h3>
 <div class="card">
  <div class="card-header">
    <h3>
-     {{ post.postTitle }}
+     {{ ad.adTitle }}
    </h3>
  </div>
  <div class="card-body">
-   {{ post.postText }}
+   {{ ad.adText }}
  </div>
 </div>
 <form method="POST">

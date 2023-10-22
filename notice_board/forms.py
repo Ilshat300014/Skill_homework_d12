@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Ad
+from .models import Ad, Reply
 from django import forms
 from allauth.account.forms import SignupForm
 from django.contrib.auth.models import Group
@@ -13,7 +13,7 @@ from django.contrib.auth.models import Group
 #         return user
 
 class AdForms(ModelForm):
-    # adFile = forms.FileField(required=False)
+    adFile = forms.FileField(required=False)
     class Meta:
         model = Ad
         fields = ['adCategory', 'adTitle', 'adText', 'adFile']
@@ -29,3 +29,10 @@ class AdForms(ModelForm):
             'adText': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter ad text'}),
             'adFile': forms.ClearableFileInput()
         }
+
+class RetryForm(ModelForm):
+    class Meta:
+        model = Reply
+        fields = ['replyText']
+        labels = {'replyText': 'Текст к отклику'}
+        widgets = {'replyText': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter ad text'}),}

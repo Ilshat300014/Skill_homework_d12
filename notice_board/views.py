@@ -1,13 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .models import *
 from .forms import *
-
-def handle_uploaded_file(f):
-    with open('//media/files/t1', 'wb+') as recieved_exr:
-        for chunk in f.chunks():
-            recieved_exr.write(chunk)
-
 
 class NoticeLists(ListView):
     model = Ad
@@ -29,22 +24,18 @@ class NoticeLists(ListView):
 
 class AdCreate(CreateView):
     model = Ad
-    # permission_required = ('news.add_post',)
     template_name = 'adCreate.html'
     form_class = AdForms
 
     def post(self, request, *args, **kwargs):
         user = request.user
         author = Author.objects.get(authorUser=user)
-        if self.request.method == "POST":
-            print('POSTPOSTPOST')
-            form = AdForms(request.POST, request.FILES)
-            if form.is_valid():
-                handle_uploaded_file(request.FILES["file"])
-                ad = form.save(commit=False)
-                ad.adAuthor = author
-                ad.save()
-                return redirect('notice_board:allAds')
+        form = AdForms(request.POST, request.FILES)
+        if form.is_valid():
+            ad = form.save(commit=False)
+            ad.adAuthor = author
+            ad.save()
+            return redirect('notice_board:allAds')
         else:
             form = AdForms()
         return render(request, "adCreate.html", {"form": form})
@@ -69,7 +60,44 @@ class AdDetail(DetailView):
         context = super().get_context_data(**kwargs)
         username = self.request.user.username
         context['is_author'] = context['ad'].adAuthor.authorUser.username == username
-        return context
+        try:
+            context['have_file'] = bool(context['ad'].adFile.url)
+            return context
+        except:
+            context['have_file'] = False
+            return context
+
+class AdUpdate(UpdateView):
+    template_name = 'adCreate.html'
+    form_class = AdForms
+
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('pk')
+        return Ad.objects.get(pk=id)
+
+class AdDelete(DeleteView):
+    template_name = 'adDelete.html'
+    queryset = Ad.objects.all()
+    success_url = reverse_lazy('notice_board:allAds')
+
+class ReplyCreate(CreateView):
+    model = Reply
+    template_name = 'replyCreate.html'
+    form_class = RetryForm
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        author = Author.objects.get(authorUser=user)
+        form = AdForms(request.POST, request.FILES)
+        if form.is_valid():
+            ad = form.save(commit=False)
+            ad.adAuthor = author
+            ad.save()
+            return redirect('notice_board:allAds')
+        else:
+            form = AdForms()
+        return render(request, "adCreate.html", {"form": form})
+
 
 # class SearchNews(ListView):
 #     model = Post
@@ -107,35 +135,9 @@ class AdDetail(DetailView):
 #         except:
 #             return context
 #
-# class PostCreate(PermissionRequiredMixin, CreateView):
-#     model = Post
-#     permission_required = ('news.add_post',)
-#     template_name = 'adCreate.html'
-#     form_class = PostForms
+
 #
-#     def post(self, request, *args, **kwargs):
-#         form = self.form_class(request.POST)  # создаём новую форму, забиваем в неё данные из POST-запроса
-#         author = request.POST['author']
-#         today = datetime.today().date()
-#         author_post_count = Post.objects.filter(author=author, createDate__date=today).count()
-#         if form.is_valid():  # если пользователь ввёл всё правильно и нигде не накосячил, то сохраняем новый товар
-#             if author_post_count < 3:
-#                 form.save()
-#                 return redirect('news:allNews')
-#             else:
-#                 return render(request, 'limit_error.html')
+
 #
-# class PostUpdate(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
-#     permission_required = ('news.change_post',)
-#     template_name = 'adCreate.html'
-#     form_class = PostForms
-#
-#     def get_object(self, **kwargs):
-#         id = self.kwargs.get('pk')
-#         return Post.objects.get(pk=id)
-#
-# class PostDelete(DeleteView):
-#     template_name = 'postDelete.html'
-#     queryset = Post.objects.all()
-#     success_url = reverse_lazy('news:allNews')
+
 

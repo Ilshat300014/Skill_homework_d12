@@ -10,7 +10,9 @@
 <h3>{{ ad.adTitle }}:</h3>
 <p>Опубликовано {{ ad.createDate|date:'d M Y H:m' }}</p>
 <p>{{ ad.adText }}</p>
-<p><img src="{{ ad.adFile.url }}"></p>
+{% if have_file %}
+    <p><img src="{{ ad.adFile.url }}"></p>
+{% endif %}
 <p>
     {% if not is_author %}
         <a class="btn btn-success" type="submit" href="">Откликнуться</a>

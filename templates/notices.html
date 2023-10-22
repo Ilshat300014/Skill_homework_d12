@@ -17,7 +17,7 @@
 {% block content %}
     {% if ads %}
         <h1>Все объявления:</h1>
-        <h3>Общее количество постов: {{ ads|length }}</h3>
+        <h3>Общее количество объявлений: {{ads|length}}</h3>
         <table class="table">
            <tr>
                <th scope="col">
@@ -52,8 +52,9 @@
                </td>
                <td>
                    {% if ad.pk in pk_list %}
-                       <a href="">Редактировать</a>
-                       <a href="">Удалить</a>
+                       <a href="">Мои отклики</a>
+                       <a href="{% url 'notice_board:adUpdate' ad.id %}">Редактировать</a>
+                       <a href="{% url 'notice_board:adDelete' ad.id %}">Удалить</a>
                    {% else %}
                        <a href="">Откликнуться</a>
                    {% endif %}
@@ -67,9 +68,4 @@
         <h1>Пока объявлений нет</h1>
     {% endif %}
 
-<!--    {% if is_not_author %}-->
-<!--        <a class="btn btn-info" href="{% url 'news:upgrade' %}">-->
-<!--            Стать автором-->
-<!--        </a>-->
-<!--    {% endif %}-->
 {% endblock content %}
