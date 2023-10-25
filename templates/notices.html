@@ -52,11 +52,11 @@
                </td>
                <td>
                    {% if ad.pk in pk_list %}
-                       <a href="">Мои отклики</a>
-                       <a href="{% url 'notice_board:adUpdate' ad.id %}">Редактировать</a>
-                       <a href="{% url 'notice_board:adDelete' ad.id %}">Удалить</a>
+                       <p><a href="">Мои отклики</a></p>
+                       <p><a href="{% url 'notice_board:adUpdate' ad.id %}">Редактировать</a></p>
+                       <p><a href="{% url 'notice_board:adDelete' ad.id %}">Удалить</a></p>
                    {% else %}
-                       <a href="">Откликнуться</a>
+                       <a href="{% url 'notice_board:replySend' ad.id %}">Откликнуться</a>
                    {% endif %}
                </td>
            </tr>

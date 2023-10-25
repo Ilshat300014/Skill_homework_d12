@@ -7,6 +7,7 @@
 
 
 {% block content %}
+{{ anonymous }}
 <h3>{{ ad.adTitle }}:</h3>
 <p>Опубликовано {{ ad.createDate|date:'d M Y H:m' }}</p>
 <p>{{ ad.adText }}</p>

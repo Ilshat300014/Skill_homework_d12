@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .forms import *
 
@@ -80,23 +81,25 @@ class AdDelete(DeleteView):
     queryset = Ad.objects.all()
     success_url = reverse_lazy('notice_board:allAds')
 
-class ReplyCreate(CreateView):
+class ReplyCreate(LoginRequiredMixin, CreateView):
     model = Reply
-    template_name = 'replyCreate.html'
+    template_name = 'send_reply.html'
     form_class = RetryForm
 
     def post(self, request, *args, **kwargs):
         user = request.user
         author = Author.objects.get(authorUser=user)
-        form = AdForms(request.POST, request.FILES)
-        if form.is_valid():
-            ad = form.save(commit=False)
-            ad.adAuthor = author
-            ad.save()
-            return redirect('notice_board:allAds')
-        else:
-            form = AdForms()
-        return render(request, "adCreate.html", {"form": form})
+        form = self.form_class(request.POST)
+        print(form)
+        # form = AdForms(request.POST, request.FILES)
+        # if form.is_valid():
+        #     ad = form.save(commit=False)
+        #     ad.adAuthor = author
+        #     ad.save()
+        #     return redirect('notice_board:allAds')
+        # else:
+        #     form = AdForms()
+        # return render(request, "adCreate.html", {"form": form})
 
 
 # class SearchNews(ListView):
