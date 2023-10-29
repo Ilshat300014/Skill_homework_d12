@@ -1,4 +1,4 @@
-'{% extends 'default.html' %}'
+{% extends 'default.html' %}
 
 
 {% block title %}Notices{% endblock title %}
@@ -6,9 +6,10 @@
 {% block navbar %}
     {% if anonymous %}
        <li class="nav-item"><a class="nav-link" href="{% url 'account_login'  %}">Вход</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'account_signup'  %}">Регистрация</a></li>
+       <li class="nav-item"><a class="nav-link" href="{% url 'account_signup'  %}">Регистрация</a></li>
    {% else %}
        <li class="nav-item"><a class="nav-link" href="{% url 'notice_board:createAd' %}">Добавить объявление</a></li>
+       <li class="nav-item"><a class="nav-link" href="{% url 'notice_board:allReplyes' %}">Oтклики</a></li>
        <li class="nav-item"><a class="nav-link" href="{% url 'account_logout'  %}">Выход</a></li>
    {% endif %}
 {% endblock navbar %}
@@ -52,11 +53,12 @@
                </td>
                <td>
                    {% if ad.pk in pk_list %}
-                       <p><a href="">Мои отклики</a></p>
                        <p><a href="{% url 'notice_board:adUpdate' ad.id %}">Редактировать</a></p>
                        <p><a href="{% url 'notice_board:adDelete' ad.id %}">Удалить</a></p>
+                   {% elif ad.pk in replyes_list %}
+                      <p>Вы уже откликнулись</p>
                    {% else %}
-                       <a href="{% url 'notice_board:replySend' ad.id %}">Откликнуться</a>
+                      <a href="{% url 'notice_board:replySend' ad.id %}">Откликнуться</a>
                    {% endif %}
                </td>
            </tr>

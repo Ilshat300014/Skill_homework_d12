@@ -1,9 +1,13 @@
-{% extends 'notices.html' %}
+{% extends 'default.html' %}
 
 
 {% block title %}
     {{ ad.adTitle }}
 {% endblock title %}
+
+{% block navbar %}
+    {{ block.super }}
+{% endblock navbar %}
 
 
 {% block content %}
@@ -16,7 +20,7 @@
 {% endif %}
 <p>
     {% if not is_author %}
-        <a class="btn btn-success" type="submit" href="">Откликнуться</a>
+        <a class="btn btn-success" type="submit" href="{% url 'notice_board:replySend' ad.id %}">Откликнуться</a>
     {% endif %}
 </p>
 

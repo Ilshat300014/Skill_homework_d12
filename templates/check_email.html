@@ -1,0 +1,15 @@
+{% extends "default.html" %}
+
+{% load i18n %}
+
+{% block title %}Signup{% endblock title %}
+
+{% block content %}
+<h2>Введите код, который Вы получили на email, указанную при регистрации</h2>
+<form action="{% url 'notice_board:checkEmail' %}" method="post" >
+    {% csrf_token %}
+      <input type="number" class="form-control" name="code" id="code">
+      <button class="primaryAction" type="submit">Подтвердить</button>
+</form>
+
+{% endblock content %}

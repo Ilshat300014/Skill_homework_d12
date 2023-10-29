@@ -1,0 +1,25 @@
+{% extends 'default.html' %}
+
+
+{% block title %}
+    Delete the reply
+{% endblock title %}
+
+{% block content %}
+
+<h3>Действительно хотите удалить это отклик?</h3>
+<div class="card">
+ <div class="card-header">
+   <h3>
+     {{ ad.adTitle }}
+   </h3>
+ </div>
+ <div class="card-body">
+   {{ ad.adText }}
+ </div>
+</div>
+<form method="POST">
+   {% csrf_token %}
+   <input class="btn btn-success" type="submit" value="Delete">
+</form>
+{% endblock content %}

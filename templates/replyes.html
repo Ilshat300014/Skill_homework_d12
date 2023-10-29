@@ -1,0 +1,62 @@
+{% extends 'default.html' %}
+
+
+{% block title %}Relyes{% endblock title %}
+
+
+{% block content %}
+    {% if replyes %}
+        <h1>Все отклики на Ваше объявления:</h1>
+        <h3>Общее количество откликов: {{replyes|length}}</h3>
+        <table class="table">
+           <tr>
+               <th scope="col">
+                   Заголовок объявления
+               </th>
+               <th scope="col">
+                   Автор
+               </th>
+               <th scope="col">
+                   E-mail
+               </th>
+               <th scope="col">
+                   Дата
+               </th>
+               <th scope="col">
+                   Текст
+               </th>
+               <th scope="col">
+                   Действия
+               </th>
+           </tr>
+        {% for reply in replyes %}
+           <tr>
+               <td>
+                   {{ reply.replyAd.adTitle }}
+               </td>
+               <td>
+                   {{ reply.replyAuthor.authorUser.username }}
+               </td>
+               <td>
+                   {{ reply.replyAuthor.authorUser.email }}</a>
+               </td>
+               <td>
+                   {{ reply.replyCreateDate }}
+               </td>
+               <td>
+                   {{ reply.replyText }}
+               </td>
+               <td>
+                   <p><a href="">Принять</a></p>
+                   <p><a href="">Удалить</a></p>
+               </td>
+           </tr>
+        {% endfor %}
+        </table>
+        <!-- Заменили код пагинатора на подключение шаблона с этим кодом -->
+        <div>{% include 'parts/paginator.html' %}</div>
+    {% else %}
+        <h1>Пока откликов нет</h1>
+    {% endif %}
+
+{% endblock content %}

@@ -49,5 +49,6 @@ class Reply(models.Model):
     replyText = models.TextField()
     replyAd = models.ForeignKey(Ad, on_delete=models.CASCADE)
     replyAuthor = models.ForeignKey(Author, on_delete=models.CASCADE)
+    replyCreateDate = models.DateTimeField(auto_now_add=True)
 
 
